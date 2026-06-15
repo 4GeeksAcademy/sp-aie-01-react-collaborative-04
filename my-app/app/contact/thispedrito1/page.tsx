@@ -86,10 +86,7 @@ export default function ThisPedrito1ContactFormPage() {
     setTouched({ name: true, email: true, subject: true, message: true });
     setErrors(nextErrors);
 
-    // Punto de integracion: aqui tu companero puede conectar API/envio real.
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
+   
 
     setStoredMessages((prev) => [
       {
