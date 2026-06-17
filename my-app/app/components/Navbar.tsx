@@ -22,7 +22,7 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/contact" className="hover:underline">
+                        <Link href="/contact/danifer24" className="hover:underline">
                             Contact
                         </Link>
                     </li>
