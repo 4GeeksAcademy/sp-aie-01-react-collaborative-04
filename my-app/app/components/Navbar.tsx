@@ -28,22 +28,22 @@ export default function Navbar() {
                             </summary>
                             <ul className="absolute left-0 top-full mt-2 min-w-44 rounded-md border bg-black p-2 shadow-md">
                                 <li>
-                                    <Link href="/contact/thispedrito1" className="block rounded px-3 py-2 hover:bg-gray-100">
+                                    <Link href="/contact/thispedrito1" className="block rounded px-3 py-2 hover:bg-gray-100 hover:text-black">
                                         Pedro
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/contact/danifer24" className="block rounded px-3 py-2 hover:bg-gray-100">
+                                    <Link href="/contact/danifer24" className="block rounded px-3 py-2 hover:bg-gray-100 hover:text-black">
                                         Daniel
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/contact/alberto" className="block rounded px-3 py-2 hover:bg-gray-100">
+                                    <Link href="/contact/alberto" className="block rounded px-3 py-2 hover:bg-gray-100 hover:text-black">
                                         Alberto
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/contact/itziar" className="block rounded px-3 py-2 hover:bg-gray-100">
+                                    <Link href="/contact/itziar" className="block rounded px-3 py-2 hover:bg-gray-100 hover:text-black">
                                         Itziar
                                     </Link>
                                 </li>
