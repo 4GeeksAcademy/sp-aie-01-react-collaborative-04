@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import FavoriteButton from "@/app/components/FavoriteButton";
+import { useFavorites } from "@/app/context/FavoritesContext";
 
 type Product = {
     id: number;
@@ -16,6 +17,7 @@ export default function App() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
     useEffect(() => {
         const getProducts = async () => {
@@ -56,8 +58,35 @@ export default function App() {
 
             {!loading && !error && (
                 <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {products.map((product) => (
-                        <article key={product.id}>
+                    {products.map((product) => {
+                        const favoriteKey = `ecommerce-${product.id}`;
+                        const active = isFavorite(favoriteKey);
+
+                        const handleFavorite = () => {
+                            if (active) {
+                                removeFavorite(favoriteKey);
+                                return;
+                            }
+
+                            addFavorite({
+                                key: favoriteKey,
+                                id: product.id,
+                                title: product.title,
+                                subtitle: product.category,
+                                image: product.img,
+                                category: "ecommerce",
+                            });
+                        };
+
+                        return (
+                        <article key={product.id} className="relative rounded border border-zinc-200 p-3">
+                            <div className="absolute right-2 top-2 z-10 rounded-full bg-white/90">
+                                <FavoriteButton
+                                    active={active}
+                                    onClick={handleFavorite}
+                                    label={active ? "Quitar de favoritos" : "Agregar a favoritos"}
+                                />
+                            </div>
                             <img
                                 src={product.img}
                                 alt={product.title}
@@ -71,7 +100,8 @@ export default function App() {
                                 <p>{product.price}</p>
                             </div>
                         </article>
-                    ))}
+                        );
+                    })}
                 </section>
             )}
         </main>

@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import FavoriteButton from "@/app/components/FavoriteButton";
+import { useFavorites } from "@/app/context/FavoritesContext";
 
 interface Product {
     id: number;
@@ -12,6 +14,7 @@ interface Product {
 
 export default function FastFoodPage() {
     const [products, setProducts] = useState<Product[]>([]);
+    const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
     useEffect(() => {
         const getProducts = async () => {
@@ -36,11 +39,39 @@ export default function FastFoodPage() {
                 <h1 className="mb-10 text-center text-3xl font-bold tracking-tight text-black">Comidas</h1>
 
                 <div className="flex flex-wrap justify-center gap-6">
-                    {products.map((product) => (
+                    {products.map((product) => {
+                        const favoriteKey = `comida-${product.id}`;
+                        const active = isFavorite(favoriteKey);
+
+                        const handleFavorite = () => {
+                            if (active) {
+                                removeFavorite(favoriteKey);
+                                return;
+                            }
+
+                            addFavorite({
+                                key: favoriteKey,
+                                id: product.id,
+                                title: product.name,
+                                subtitle: product.category,
+                                image: product.image,
+                                category: "comida",
+                            });
+                        };
+
+                        return (
                         <article
                             key={product.id}
-                            className="w-full max-w-xs overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-sm transition hover:-translate-y-1 hover:border-gray-300 hover:shadow-md"
+                            className="relative w-full max-w-xs overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-sm transition hover:-translate-y-1 hover:border-gray-300 hover:shadow-md"
                         >
+                            <div className="absolute right-2 top-2 z-10 rounded-full bg-white/90">
+                                <FavoriteButton
+                                    active={active}
+                                    onClick={handleFavorite}
+                                    label={active ? "Quitar de favoritos" : "Agregar a favoritos"}
+                                />
+                            </div>
+
                             <img
                                 src={product.image}
                                 alt={product.name}
@@ -57,7 +88,8 @@ export default function FastFoodPage() {
                                 </p>
                             </div>
                         </article>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </div>

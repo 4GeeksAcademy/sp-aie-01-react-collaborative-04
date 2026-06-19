@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Favorites from "./Favorites";
 
 export default function Navbar() {
     const [openMenu, setOpenMenu] = useState<"apis" | "contact" | null>(null);
@@ -14,7 +15,7 @@ export default function Navbar() {
 
     return (
         <div>
-            <nav className="flex justify-between items-center p-4">
+            <nav className="relative z-50 flex justify-between items-center gap-4 overflow-visible p-4">
                 <ul className="flex gap-6">
                     <li>
                         <Link href="/" className="hover:underline" onClick={closeMenus}>
@@ -93,6 +94,8 @@ export default function Navbar() {
                         )}
                     </li>
                 </ul>
+
+                <Favorites />
             </nav>
         </div>
     );
