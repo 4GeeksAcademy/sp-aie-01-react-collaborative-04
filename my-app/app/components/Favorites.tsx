@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { FavoriteItem, FavoritesCategory, useFavorites } from "../context/FavoritesContext";
 
 const sections: { key: FavoritesCategory; label: string }[] = [
@@ -12,7 +13,21 @@ const sections: { key: FavoritesCategory; label: string }[] = [
 
 export default function Favorites() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const { favorites, removeFavorite } = useFavorites();
+
+  const categoryByPath = useMemo<FavoritesCategory | null>(() => {
+    if (pathname.startsWith("/apis/thispedrito1")) return "ecommerce";
+    if (pathname.startsWith("/apis/alberto")) return "nba";
+    if (pathname.startsWith("/apis/danifer24")) return "comida";
+    if (pathname.startsWith("/apis/itziar")) return "peliculas";
+    return null;
+  }, [pathname]);
+
+  const visibleSections = useMemo(() => {
+    if (!categoryByPath) return sections;
+    return sections.filter((section) => section.key === categoryByPath);
+  }, [categoryByPath]);
 
   const grouped = useMemo(() => {
     return sections.reduce<Record<FavoritesCategory, FavoriteItem[]>>(
@@ -36,7 +51,7 @@ export default function Favorites() {
 
       {open && (
         <div className="absolute right-0 z-[999] mt-2 max-h-[70vh] w-[24rem] overflow-y-auto rounded-md border border-gray-700 bg-black p-4 shadow-xl">
-          {sections.map((section) => (
+          {visibleSections.map((section) => (
             <div key={section.key} className="mb-4 last:mb-0">
               <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-300">{section.label}</h3>
 
