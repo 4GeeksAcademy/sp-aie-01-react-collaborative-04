@@ -29,6 +29,11 @@ export default function Favorites() {
     return sections.filter((section) => section.key === categoryByPath);
   }, [categoryByPath]);
 
+  const visibleFavoritesCount = useMemo(() => {
+    if (!categoryByPath) return favorites.length;
+    return favorites.filter((item) => item.category === categoryByPath).length;
+  }, [favorites, categoryByPath]);
+
   const grouped = useMemo(() => {
     return sections.reduce<Record<FavoritesCategory, FavoriteItem[]>>(
       (acc, section) => {
@@ -46,7 +51,7 @@ export default function Favorites() {
         onClick={() => setOpen((current) => !current)}
         className="rounded-md border border-gray-700 px-3 py-2 text-sm hover:bg-gray-900"
       >
-        Favoritos ({favorites.length})
+        Favoritos ({visibleFavoritesCount})
       </button>
 
       {open && (
